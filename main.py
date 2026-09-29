@@ -24,9 +24,17 @@ log = logging.getLogger("classroomeye.ai")
 mp_face_mesh = mp.solutions.face_mesh
 _executor = ThreadPoolExecutor(max_workers=8)
 
+
 app = FastAPI(title="ClassroomEye AI Service", version="1.0.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["POST"], allow_headers=["*"])
 
+@app.get("/")
+def root():
+    return {
+        "message": "ClassroomEye AI Service is running",
+        "status": "healthy"
+    }
+    
 class FrameRequest(BaseModel):
     frame: str = Field(..., description="Base64-encoded image")
     student_id: Optional[str] = None
